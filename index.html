@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Sheet | Laser Engraving Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    <style>
+        :root { --orange: #ff6600; --dark-bg: #0b0e14; --card-bg: #161b22; --border: #30363d; --text: #f0f6fc; }
+        body { background-color: var(--dark-bg); color: var(--text); font-family: 'Alata', sans-serif; margin: 0; }
+        nav { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: var(--dark-bg); position: sticky; top: 0; z-index: 100; }
+        .logo { height: 50px; }
+        .hero { position: relative; height: 35vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .hero video { position: absolute; min-width: 100%; min-height: 100%; z-index: -1; filter: brightness(30%); }
+        .hero h1 { font-size: 2.5rem; color: var(--orange); text-align: center; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
+        .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
+        .form-section { background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .grid-header { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; padding: 20px; background: rgba(255,102,0,0.05); border-radius: 8px; border: 1px solid var(--border); }
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #8b949e; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px; border-bottom: 2px solid var(--orange); color: var(--orange); font-size: 0.8rem; text-transform: uppercase; }
+        td { padding: 8px; border-bottom: 1px solid var(--border); }
+        input, select { width: 100%; padding: 10px; background: var(--dark-bg); border: 1px solid var(--border); color: #fff; border-radius: 4px; box-sizing: border-box; }
+        .preview-sticky { position: sticky; bottom: 20px; background: var(--card-bg); padding: 20px; border: 2px solid var(--orange); border-radius: 12px; margin-top: 30px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 -10px 20px rgba(0,0,0,0.4); }
+        #phenolic-preview { width: 280px; height: 120px; border-radius: 4px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; font-size: 20px; text-transform: uppercase; box-shadow: inset 0 0 15px rgba(0,0,0,0.6); border: 3px solid rgba(0,0,0,0.3); }
+        .submit-btn { background: var(--orange); color: white; padding: 20px; width: 100%; border: none; font-size: 1.2rem; font-weight: bold; cursor: pointer; border-radius: 8px; margin-top: 20px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <img src="logo.png" alt="Logo" class="logo">
+    <div style="color: var(--orange); font-weight: bold;">INDUSTRIAL ID SPECIALISTS</div>
+</nav>
+
+<section class="hero">
+    <video autoplay muted loop playsinline>
+        <source src="laser-engraving-animation.mp4" type="video/mp4">
+    </video>
+    <h1>Pass Inspection. ASAP.</h1>
+</section>
+
+<div class="container">
+    <form class="form-section" data-netlify="true" name="phenolic-order-v2">
+        <div class="grid-header">
+            <div><label>Company</label><input type="text" name="company" required></div>
+            <div><label>Project / PO #</label><input type="text" name="project"></div>
+            <div><label>Order Needed By</label><input type="text" name="deadline" value="ASAP" style="font-weight:bold; color:var(--orange);"></div>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Qty</th>
+                        <th style="width: 150px;">Plate Size</th>
+                        <th style="width: 130px;">BG Color</th>
+                        <th style="width: 130px;">Text Color</th>
+                        <th>Text to Engrave</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script>
+                        for (let i = 1; i <= 33; i++) {
+                            document.write(`
+                                <tr>
+                                    <td><input type="number" name="qty_${i}"></td>
+                                    <td><select name="size_${i}"><option>22mm</option><option>30mm</option><option>Custom</option></select></td>
+                                    <td><input type="text" id="bg_${i}" name="bg_${i}" placeholder="Red" onfocus="updatePreview(${i})" oninput="updatePreview(${i})"></td>
+                                    <td><input type="text" id="color_${i}" name="color_${i}" placeholder="White" onfocus="updatePreview(${i})" oninput="updatePreview(${i})"></td>
+                                    <td><input type="text" id="text_${i}" name="text_${i}" placeholder="TEXT" onfocus="updatePreview(${i})" oninput="updatePreview(${i})"></td>
+                                </tr>
+                            `);
+                        }
+                    </script>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="preview-sticky">
+            <p style="margin-bottom:10px; font-size:0.8rem; color:var(--orange);">LIVE PREVIEW</p>
+            <div id="phenolic-preview" style="background-color: red; color: white;">PREVIEW</div>
+            <button type="submit" class="submit-btn">Submit Order for 48-Hour Dispatch</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function updatePreview(row) {
+        const text = document.getElementById(`text_${row}`).value || "PREVIEW";
+        const bg = (document.getElementById(`bg_${row}`).value || "Red").toLowerCase();
+        const color = (document.getElementById(`color_${row}`).value || "White").toLowerCase();
+        const preview = document.getElementById('phenolic-preview');
+        preview.innerText = text;
+        preview.style.backgroundColor = bg;
+        preview.style.color = color;
+    }
+</script>
+</body>
+</html>
